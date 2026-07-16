@@ -35,6 +35,21 @@
   <style>
     body { background: #111211; color: #f4f4ef; font-family: Inter, sans-serif; -webkit-font-smoothing: antialiased; }
   </style>
+  <script>
+    function copyInstallCommand(button) {
+      const command = "brew install --cask shreysid/tap/sotto";
+      navigator.clipboard.writeText(command).then(() => {
+        const label = button.querySelector("[data-copy-label]");
+        const previous = label.textContent;
+        label.textContent = "Copied";
+        button.setAttribute("aria-label", "Copied Homebrew install command");
+        window.setTimeout(() => {
+          label.textContent = previous;
+          button.setAttribute("aria-label", "Copy Homebrew install command");
+        }, 1400);
+      });
+    }
+  </script>
 </head>
 <body class="min-h-screen bg-canvas text-ink">
   <nav class="sticky top-0 z-50 border-b border-line/70 bg-canvas/95 backdrop-blur-xl">
@@ -47,7 +62,7 @@
         <a class="hidden text-muted transition-colors hover:text-ink md:block" href="#how-it-works">How it works</a>
         <a class="hidden text-muted transition-colors hover:text-ink md:block" href="#install">Install</a>
         <a class="hidden text-muted transition-colors hover:text-ink md:block" href="https://github.com/sponsors/Shreysid">Sponsor</a>
-        <a class="rounded-lg border border-line bg-surface px-4 py-2.5 font-medium transition-colors hover:border-muted hover:bg-surfacehigh" href="https://github.com/Shreysid/Sotto">View on GitHub</a>
+        <a class="rounded-lg border border-line bg-surface px-4 py-2.5 font-medium transition-colors hover:border-muted hover:bg-surfacehigh" href="https://github.com/Shreysid/Sotto">Star on GitHub</a>
       </div>
     </div>
   </nav>
@@ -62,9 +77,9 @@
           <a class="rounded-lg bg-accent px-6 py-4 text-center text-sm font-semibold text-accentink transition-colors hover:bg-[#83e7de]" href="#install">Get the preview</a>
           <a class="rounded-lg border border-line bg-surface px-6 py-4 text-center text-sm font-semibold transition-colors hover:border-muted hover:bg-surfacehigh" href="https://github.com/Shreysid/Sotto/releases/tag/v0.1.0">Release notes</a>
         </div>
-        <div class="mt-7 inline-flex max-w-full items-center gap-3 border border-line bg-surface px-4 py-3 font-mono text-xs text-muted sm:text-sm">
-          <span class="text-accent">$</span><code class="overflow-x-auto">brew install --cask shreysid/tap/sotto</code>
-        </div>
+        <button class="mt-7 inline-flex max-w-full items-center gap-3 border border-line bg-surface px-4 py-3 text-left font-mono text-xs text-muted transition-colors hover:border-muted hover:bg-surfacehigh sm:text-sm" type="button" onclick="copyInstallCommand(this)" aria-label="Copy Homebrew install command">
+          <span class="text-accent">$</span><code class="overflow-x-auto">brew install --cask shreysid/tap/sotto</code><span class="text-accent" data-copy-label>Copy</span>
+        </button>
       </div>
       <div class="order-1 flex justify-center md:order-2 md:justify-end">
         <div class="w-56 border border-line bg-surface p-5 shadow-2xl sm:w-72 md:w-80">
@@ -121,7 +136,7 @@
             <h2 class="mt-4 font-display text-3xl font-bold md:text-5xl">Try Sotto today.</h2>
             <p class="mt-5 max-w-2xl text-lg leading-relaxed text-muted">Apple silicon required. This initial Homebrew build is unsigned, so macOS may require a one-time Gatekeeper override on first launch.</p>
           </div>
-          <a class="rounded-lg bg-accent px-6 py-4 text-center text-sm font-semibold text-accentink transition-colors hover:bg-[#83e7de]" href="https://github.com/Shreysid/homebrew-tap">Open Homebrew tap</a>
+          <a class="rounded-lg bg-accent px-6 py-4 text-center text-sm font-semibold text-accentink transition-colors hover:bg-[#83e7de]" href="https://github.com/Shreysid/Sotto">View on GitHub</a>
         </div>
       </div>
     </section>
