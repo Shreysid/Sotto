@@ -1,57 +1,82 @@
-# Sotto
+<p align="center">
+  <img src="assets/sotto-logo.png" width="112" height="112" alt="Sotto icon">
+</p>
 
-Sotto is a native macOS app that reads selected text aloud with a fast, expressive local voice. It uses FluidAudio to run Kokoro-82M on-device and keeps the model warm after startup for quicker playback.
+<h1 align="center">Sotto</h1>
 
-## Features
+<p align="center">
+  Select text in any macOS app, use your shortcut, and hear it read aloud.<br>
+  Expressive local text-to-speech with <a href="https://github.com/FluidInference/FluidAudio">FluidAudio</a> and <a href="https://huggingface.co/hexgrad/Kokoro-82M">Kokoro</a>.<br>
+  Runs quietly from your menu bar.
+</p>
 
-- Read selected text from any macOS app with a configurable global shortcut.
-- Run Kokoro locally after its one-time model download.
-- Stream long selections in smaller sections for faster first audio.
-- Control playback speed, pause, skip, and stop from the menu bar.
-- Add custom pronunciation rules for names, acronyms, and technical terms.
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-blue" alt="License: Apache-2.0"></a>
+  <img src="https://img.shields.io/badge/platform-macOS%2015%2B-lightgrey" alt="macOS 15+">
+  <img src="https://img.shields.io/badge/voice-local%20Kokoro-4d6bfe" alt="Local Kokoro voice">
+</p>
+
+---
 
 ## Requirements
 
 - macOS 15 or later
 - Apple silicon Mac recommended
-- Xcode 26 or later for building from source
-- Internet access for Swift Package Manager and the first Kokoro model download
+- Xcode 26 or later to build from source
+- Internet access for the first FluidAudio dependency resolution and Kokoro download
 
-## Build From Source
+## Build from source
 
-1. Clone the repository:
+1. Clone Sotto:
 
    ```bash
    git clone https://github.com/Shreysid/Sotto.git
    cd Sotto
    ```
 
-2. Open the Xcode project:
+2. Open the project:
 
    ```bash
    open Sotto.xcodeproj
    ```
 
-3. In Xcode, choose the `Sotto` scheme and `My Mac` as the run destination.
-4. Build and run with `Cmd+R`. Xcode resolves FluidAudio through Swift Package Manager on the first build.
-5. When Sotto opens, allow Accessibility access. It is required to read selected text and respond to the global shortcut.
-6. Download Kokoro from Sotto's first-run prompt. The model stays outside the app bundle and is loaded locally.
+3. In Xcode, select the `Sotto` scheme and `My Mac` as the run destination.
+4. Press `Cmd+R` to build and run. Xcode resolves FluidAudio through Swift Package Manager on the first build.
 
-## Usage
+## First use
 
-Select text in any app, then use the configured global shortcut. Open **Sotto Studio** from the menu bar to change playback speed, set pronunciation rules, and view usage stats.
+Sotto appears as a waveform in the menu bar. On first launch it asks for Accessibility access, which lets it read the active text selection and respond to your global shortcut.
+
+1. Choose **Open Accessibility Settings** in Sotto's prompt and enable **Sotto**.
+2. Download Kokoro from Sotto's first-run prompt.
+3. Select text in any app, then press the configured shortcut to start speaking.
+4. Use the shortcut again with no selection, or use the stop control, to stop playback.
+
+Kokoro downloads once, stays outside the app bundle, and is loaded locally. Sotto warms it after startup so the first real selection can begin sooner.
+
+## Controls
+
+Click the menu-bar waveform to open playback controls and **Sotto Studio**.
+
+| Setting | What it does |
+|---|---|
+| **Playback speed** | Uses stepped speed values from `0.75x` to `1.35x`; changes apply during playback. |
+| **Global shortcut** | Records the shortcut you want to use for speaking selected text. |
+| **Pronunciation** | Replaces a word or phrase with a preferred spoken form before Kokoro synthesizes it. |
+| **Pause for voice apps** | Stops Sotto when a supported calling or voice app becomes active. |
+| **Stats** | Tracks locally spoken words and total playback time. |
 
 ## Privacy
 
-Selected text and generated audio remain on-device. Sotto connects to the model host only for the initial Kokoro download and related updates.
+Selected text and generated audio remain on-device. Sotto contacts the model host only to download Kokoro and its supporting assets.
 
 ## Credits
 
-- [FluidAudio](https://github.com/FluidInference/FluidAudio) provides the local Apple Silicon audio inference and model-management layer.
+- [FluidAudio](https://github.com/FluidInference/FluidAudio) provides the local Apple Silicon inference and model-management layer.
 - [Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M) provides Sotto's expressive text-to-speech model.
 
-Both FluidAudio and Kokoro-82M are licensed under Apache-2.0.
+FluidAudio and Kokoro-82M are both licensed under Apache-2.0. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for attribution details.
 
 ## License
 
-Sotto is licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE).
+[Apache License 2.0](LICENSE)
