@@ -25,6 +25,14 @@
 - Xcode 26 or later to build from source
 - Internet access for the first FluidAudio dependency resolution and Kokoro download
 
+## Install with Homebrew
+
+```bash
+brew install --cask shreysid/tap/sotto
+```
+
+The current Homebrew release is an unsigned Apple-silicon preview. If macOS blocks its first launch, open Sotto from Applications once, then choose **Open Anyway** in **System Settings → Privacy & Security**.
+
 ## Build from source
 
 1. Clone Sotto:
