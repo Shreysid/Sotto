@@ -1,0 +1,9 @@
+.DS_Store
+.build/
+DerivedData/
+build/
+xcuserdata/
+*.xcuserstate
+
+# Xcode resolves this locally from Package.resolved.
+SourcePackages/
