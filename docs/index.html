@@ -1,224 +1,135 @@
 <!doctype html>
-<html lang="en">
+<html class="dark" lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Sotto is expressive local text-to-speech for selected text on macOS.">
   <title>Sotto - Local text-to-speech for macOS</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;family=Manrope:wght@700;800&amp;display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            canvas: "#111211",
+            surface: "#1a1d1b",
+            surfacehigh: "#242825",
+            ink: "#f4f4ef",
+            muted: "#a9afa9",
+            line: "#3d443e",
+            accent: "#5ed6ca",
+            accentink: "#062c29"
+          },
+          fontFamily: {
+            display: ["Manrope", "sans-serif"],
+            body: ["Inter", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"]
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    :root {
-      color-scheme: dark;
-      --canvas: #171918;
-      --surface: #202321;
-      --surface-strong: #292d2a;
-      --ink: #f4f4ef;
-      --muted: #afb5ae;
-      --line: #3b413c;
-      --accent: #58d5c9;
-      --accent-ink: #062b29;
-      --max-width: 1120px;
-    }
-
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      background: var(--canvas);
-      color: var(--ink);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.5;
-    }
-
-    a { color: inherit; }
-
-    .shell {
-      width: min(var(--max-width), calc(100% - 40px));
-      margin: 0 auto;
-    }
-
-    .nav {
-      height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .wordmark {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      font-size: 18px;
-      font-weight: 700;
-    }
-
-    .wordmark img { width: 30px; height: 30px; border-radius: 7px; }
-
-    .nav-links { display: flex; align-items: center; gap: 22px; }
-    .nav-links a { color: var(--muted); font-size: 14px; text-decoration: none; }
-    .nav-links a:hover { color: var(--ink); }
-
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 42px;
-      padding: 0 17px;
-      border: 1px solid var(--accent);
-      border-radius: 7px;
-      background: var(--accent);
-      color: var(--accent-ink);
-      font-weight: 700;
-      text-decoration: none;
-    }
-
-    .button:hover { background: #77e6db; }
-    .button.secondary { background: transparent; color: var(--ink); border-color: var(--line); }
-    .button.secondary:hover { border-color: var(--muted); }
-
-    .hero {
-      min-height: 76svh;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 56px 0 38px;
-    }
-
-    .hero-content { max-width: 760px; }
-    .hero-logo { width: 128px; height: 128px; margin-bottom: 24px; }
-    .eyebrow { color: var(--accent); font-size: 14px; font-weight: 700; letter-spacing: 0; text-transform: uppercase; }
-
-    h1, h2, h3, p { margin-top: 0; }
-    h1 { margin: 10px 0 18px; font-size: clamp(44px, 7vw, 76px); line-height: 1; letter-spacing: 0; }
-    h2 { font-size: clamp(28px, 4vw, 42px); line-height: 1.1; letter-spacing: 0; }
-    h3 { font-size: 20px; letter-spacing: 0; }
-    .hero-copy { max-width: 620px; margin: 0 auto; color: var(--muted); font-size: 20px; }
-    .hero-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
-    .install { margin-top: 24px; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; }
-
-    .section { padding: 92px 0; border-top: 1px solid var(--line); }
-    .section-intro { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 56px; margin-bottom: 42px; }
-    .section-intro p { color: var(--muted); font-size: 18px; }
-
-    .features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
-    .feature { min-height: 218px; padding: 28px; background: var(--surface); }
-    .feature + .feature { border-left: 1px solid var(--line); }
-    .feature-mark { display: grid; place-items: center; width: 38px; height: 38px; margin-bottom: 38px; border: 1px solid var(--line); border-radius: 7px; color: var(--accent); font-size: 20px; }
-    .feature p { color: var(--muted); margin-bottom: 0; }
-
-    .workflow { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-    .step { padding: 26px; border-top: 2px solid var(--accent); background: var(--surface); border-radius: 7px; }
-    .step-number { color: var(--accent); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
-    .step p { margin-bottom: 0; color: var(--muted); }
-
-    .download { display: flex; align-items: center; justify-content: space-between; gap: 28px; padding: 40px; background: var(--surface-strong); border-radius: 8px; }
-    .download p { margin: 0; color: var(--muted); }
-
-    footer { padding: 32px 0 44px; color: var(--muted); font-size: 14px; }
-    footer .shell { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
-    footer a { text-decoration: none; }
-    footer a:hover { color: var(--ink); }
-
-    @media (max-width: 720px) {
-      .shell { width: min(var(--max-width), calc(100% - 28px)); }
-      .nav { height: 64px; }
-      .nav-links a:not(.button) { display: none; }
-      .hero { min-height: 72svh; padding-top: 46px; }
-      .hero-logo { width: 104px; height: 104px; }
-      .hero-copy { font-size: 18px; }
-      .section { padding: 64px 0; }
-      .section-intro, .features, .workflow { grid-template-columns: 1fr; gap: 20px; }
-      .feature + .feature { border-top: 1px solid var(--line); border-left: 0; }
-      .feature { min-height: auto; }
-      .feature-mark { margin-bottom: 24px; }
-      .download { display: block; padding: 28px; }
-      .download .button { margin-top: 20px; }
-    }
+    body { background: #111211; color: #f4f4ef; font-family: Inter, sans-serif; -webkit-font-smoothing: antialiased; }
   </style>
 </head>
-<body>
-  <header class="shell nav">
-    <a class="wordmark" href="#top"><img src="assets/sotto-logo.png" alt="">Sotto</a>
-    <nav class="nav-links" aria-label="Primary navigation">
-      <a href="#how-it-works">How it works</a>
-      <a href="#install">Install</a>
-      <a class="button" href="https://github.com/Shreysid/Sotto">View on GitHub</a>
-    </nav>
-  </header>
+<body class="min-h-screen bg-canvas text-ink">
+  <nav class="sticky top-0 z-50 border-b border-line/70 bg-canvas/95 backdrop-blur-xl">
+    <div class="mx-auto flex h-20 max-w-6xl items-center justify-between px-6">
+      <a class="flex items-center gap-3 font-display text-[22px] font-bold" href="#top">
+        <img class="h-9 w-9 rounded-lg" src="assets/sotto-logo.png" alt="Sotto">
+        <span>Sotto</span>
+      </a>
+      <div class="flex items-center gap-5 text-sm">
+        <a class="hidden text-muted transition-colors hover:text-ink md:block" href="#how-it-works">How it works</a>
+        <a class="hidden text-muted transition-colors hover:text-ink md:block" href="#install">Install</a>
+        <a class="rounded-lg border border-line bg-surface px-4 py-2.5 font-medium transition-colors hover:border-muted hover:bg-surfacehigh" href="https://github.com/Shreysid/Sotto">View on GitHub</a>
+      </div>
+    </div>
+  </nav>
 
   <main id="top">
-    <section class="shell hero">
-      <div class="hero-content">
-        <img class="hero-logo" src="assets/sotto-logo.png" alt="Sotto application icon">
-        <div class="eyebrow">Local text-to-speech for macOS</div>
-        <h1>Selected text, spoken naturally.</h1>
-        <p class="hero-copy">Sotto turns text from any app into expressive speech on your Mac. No account, no subscription, no text sent to a cloud voice API.</p>
-        <div class="hero-actions">
-          <a class="button" href="#install">Install Sotto</a>
-          <a class="button secondary" href="https://github.com/Shreysid/Sotto/releases/tag/v0.1.0">Preview release</a>
+    <section class="mx-auto grid min-h-[76svh] max-w-6xl items-center gap-14 px-6 py-20 md:grid-cols-2 md:py-28">
+      <div class="order-2 md:order-1">
+        <p class="mb-7 inline-flex border border-line bg-surface px-3 py-2 font-mono text-xs uppercase tracking-[0.16em] text-muted">Local text-to-speech for macOS</p>
+        <h1 class="mb-7 font-display text-5xl font-extrabold leading-[1.03] md:text-7xl">Selected text,<br><span class="text-muted">spoken naturally.</span></h1>
+        <p class="max-w-xl text-lg leading-relaxed text-muted md:text-xl">Sotto turns text from any app into expressive speech on your Mac. No account, no subscription, and no text sent to a cloud voice API.</p>
+        <div class="mt-10 flex flex-col gap-3 sm:flex-row">
+          <a class="rounded-lg bg-accent px-6 py-4 text-center text-sm font-semibold text-accentink transition-colors hover:bg-[#83e7de]" href="#install">Get the preview</a>
+          <a class="rounded-lg border border-line bg-surface px-6 py-4 text-center text-sm font-semibold transition-colors hover:border-muted hover:bg-surfacehigh" href="https://github.com/Shreysid/Sotto/releases/tag/v0.1.0">Release notes</a>
         </div>
-        <p class="install">brew install --cask shreysid/tap/sotto</p>
+        <div class="mt-7 inline-flex max-w-full items-center gap-3 border border-line bg-surface px-4 py-3 font-mono text-xs text-muted sm:text-sm">
+          <span class="text-accent">$</span><code class="overflow-x-auto">brew install --cask shreysid/tap/sotto</code>
+        </div>
       </div>
-    </section>
-
-    <section id="how-it-works" class="section">
-      <div class="shell">
-        <div class="section-intro">
-          <h2>Built for the way you already read.</h2>
-          <p>Keep Sotto in the menu bar. Highlight a passage in a browser, editor, or chat app, then use your own global shortcut to hear it.</p>
-        </div>
-        <div class="features">
-          <article class="feature">
-            <div class="feature-mark" aria-hidden="true">01</div>
-            <h3>Expressive voice</h3>
-            <p>Kokoro delivers a more human read than system text-to-speech, with local inference on Apple silicon.</p>
-          </article>
-          <article class="feature">
-            <div class="feature-mark" aria-hidden="true">02</div>
-            <h3>Fast follow-up speech</h3>
-            <p>Sotto warms the model after startup and begins long passages with a smaller first section for faster audio.</p>
-          </article>
-          <article class="feature">
-            <div class="feature-mark" aria-hidden="true">03</div>
-            <h3>Your words stay local</h3>
-            <p>Selected text and generated audio stay on your Mac. The network is only used for the first model download.</p>
-          </article>
+      <div class="order-1 flex justify-center md:order-2 md:justify-end">
+        <div class="w-56 border border-line bg-surface p-5 shadow-2xl sm:w-72 md:w-80">
+          <img class="h-auto w-full" src="assets/sotto-logo.png" alt="Sotto application icon">
         </div>
       </div>
     </section>
 
-    <section class="section">
-      <div class="shell">
-        <div class="section-intro">
-          <h2>Small controls, serious usefulness.</h2>
-          <p>Change speed during playback, skip between sections, stop instantly, add pronunciation rules for names and acronyms, and let Sotto pause for voice apps.</p>
+    <section id="how-it-works" class="border-t border-line/70 py-20 md:py-28">
+      <div class="mx-auto max-w-6xl px-6">
+        <div class="mb-14 grid gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-end">
+          <h2 class="font-display text-3xl font-bold leading-tight md:text-5xl">Built for the way you already read.</h2>
+          <p class="text-lg leading-relaxed text-muted">Keep Sotto in the menu bar. Highlight a passage in a browser, editor, or chat app, then use your own global shortcut to hear it.</p>
         </div>
-        <div class="workflow">
-          <article class="step"><div class="step-number">01</div><h3>Choose text</h3><p>Select anything readable in the app you are using.</p></article>
-          <article class="step"><div class="step-number">02</div><h3>Use your shortcut</h3><p>Sotto reads the active selection without interrupting your workflow.</p></article>
-          <article class="step"><div class="step-number">03</div><h3>Adjust as you go</h3><p>Use the menu bar for pause, speed, navigation, and Sotto Studio.</p></article>
+        <div class="grid border border-line md:grid-cols-3">
+          <article class="min-h-60 bg-surface p-8 md:p-10">
+            <span class="font-mono text-xs text-accent">01</span>
+            <h3 class="mt-9 font-display text-2xl font-bold">Expressive voice</h3>
+            <p class="mt-4 leading-relaxed text-muted">Kokoro delivers a more human read than system text-to-speech, with local inference on Apple silicon.</p>
+          </article>
+          <article class="min-h-60 border-t border-line bg-surface p-8 md:border-l md:border-t-0 md:p-10">
+            <span class="font-mono text-xs text-accent">02</span>
+            <h3 class="mt-9 font-display text-2xl font-bold">Fast follow-up speech</h3>
+            <p class="mt-4 leading-relaxed text-muted">Sotto warms the model after startup and begins long passages with a smaller first section for faster audio.</p>
+          </article>
+          <article class="min-h-60 border-t border-line bg-surface p-8 md:border-l md:border-t-0 md:p-10">
+            <span class="font-mono text-xs text-accent">03</span>
+            <h3 class="mt-9 font-display text-2xl font-bold">Your words stay local</h3>
+            <p class="mt-4 leading-relaxed text-muted">Selected text and generated audio stay on your Mac. The network is only used for the first model download.</p>
+          </article>
         </div>
       </div>
     </section>
 
-    <section id="install" class="section">
-      <div class="shell download">
-        <div>
-          <h2>Try the preview.</h2>
-          <p>Apple silicon required. This initial Homebrew build is unsigned, so macOS may require a one-time Gatekeeper override on first launch.</p>
+    <section class="border-t border-line/70 py-20 md:py-28">
+      <div class="mx-auto max-w-6xl px-6">
+        <div class="mb-14 grid gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-end">
+          <h2 class="font-display text-3xl font-bold leading-tight md:text-5xl">Small controls,<br><span class="text-muted">serious usefulness.</span></h2>
+          <p class="text-lg leading-relaxed text-muted">Change speed during playback, skip between sections, stop instantly, add pronunciation rules for names and acronyms, and let Sotto pause for voice apps.</p>
         </div>
-        <a class="button" href="https://github.com/Shreysid/homebrew-tap">Open Homebrew tap</a>
+        <div class="grid gap-4 md:grid-cols-3">
+          <article class="border-t-2 border-accent bg-surface p-8"><span class="font-mono text-xs text-muted">01</span><h3 class="mt-7 font-display text-2xl font-bold">Choose text</h3><p class="mt-4 leading-relaxed text-muted">Select anything readable in the app you are using.</p></article>
+          <article class="border-t-2 border-accent bg-surface p-8"><span class="font-mono text-xs text-muted">02</span><h3 class="mt-7 font-display text-2xl font-bold">Use your shortcut</h3><p class="mt-4 leading-relaxed text-muted">Sotto reads the active selection without interrupting your workflow.</p></article>
+          <article class="border-t-2 border-accent bg-surface p-8"><span class="font-mono text-xs text-muted">03</span><h3 class="mt-7 font-display text-2xl font-bold">Adjust as you go</h3><p class="mt-4 leading-relaxed text-muted">Use the menu bar for pause, speed, navigation, and Sotto Studio.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="install" class="border-t border-line/70 py-20 md:py-28">
+      <div class="mx-auto max-w-6xl px-6">
+        <div class="grid gap-10 border border-line bg-surfacehigh p-8 md:grid-cols-[1fr_auto] md:items-center md:p-14">
+          <div>
+            <p class="font-mono text-xs uppercase tracking-[0.14em] text-accent">Preview release</p>
+            <h2 class="mt-4 font-display text-3xl font-bold md:text-5xl">Try Sotto today.</h2>
+            <p class="mt-5 max-w-2xl text-lg leading-relaxed text-muted">Apple silicon required. This initial Homebrew build is unsigned, so macOS may require a one-time Gatekeeper override on first launch.</p>
+          </div>
+          <a class="rounded-lg bg-accent px-6 py-4 text-center text-sm font-semibold text-accentink transition-colors hover:bg-[#83e7de]" href="https://github.com/Shreysid/homebrew-tap">Open Homebrew tap</a>
+        </div>
       </div>
     </section>
   </main>
 
-  <footer>
-    <div class="shell">
-      <span>Apache-2.0 licensed. Built with FluidAudio and Kokoro.</span>
-      <span><a href="https://github.com/Shreysid/Sotto">GitHub</a> · <a href="https://github.com/Shreysid/homebrew-tap">Homebrew tap</a></span>
+  <footer class="border-t border-line/70 py-10">
+    <div class="mx-auto flex max-w-6xl flex-col gap-5 px-6 text-sm text-muted md:flex-row md:items-center md:justify-between">
+      <p>Apache-2.0 licensed. Built with FluidAudio and Kokoro.</p>
+      <div class="flex gap-6"><a class="transition-colors hover:text-ink" href="https://github.com/Shreysid/Sotto">GitHub</a><a class="transition-colors hover:text-ink" href="https://github.com/Shreysid/homebrew-tap">Homebrew tap</a></div>
     </div>
   </footer>
 </body>
