@@ -16,6 +16,10 @@
   <img src="https://img.shields.io/badge/voice-local%20Kokoro-4d6bfe" alt="Local Kokoro voice">
 </p>
 
+<p align="center">
+  <img src="Demo/sotto-demo.gif" alt="Sotto reading selected text from the macOS menu bar">
+</p>
+
 ---
 
 ## Requirements
