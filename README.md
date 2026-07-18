@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <img src="Demo/sotto-demo.gif" alt="Sotto reading selected text from the macOS menu bar">
+  <video src="Demo/Sotto_resize.mp4" controls muted loop playsinline width="960" aria-label="Sotto reading selected text from the macOS menu bar"></video>
 </p>
 
 <p align="center">
