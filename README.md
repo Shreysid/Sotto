@@ -20,6 +20,10 @@
   <img src="Demo/sotto-demo.gif" alt="Sotto reading selected text from the macOS menu bar">
 </p>
 
+<p align="center">
+  <a href="https://www.producthunt.com/products/sotto-7?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-sotto-3fb008d4-a845-4f83-9a4f-f5d1a9b03474" target="_blank" rel="noopener noreferrer"><img alt="Sotto - Local read-aloud for selected text on macOS | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1199240&amp;theme=light&amp;t=1784368812677"></a>
+</p>
+
 ---
 
 ## Requirements
