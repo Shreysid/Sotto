@@ -17,7 +17,11 @@
 </p>
 
 <p align="center">
-  <img src="Demo/sotto-demo.gif" alt="Sotto reading selected text from the macOS menu bar">
+  
+
+https://github.com/user-attachments/assets/9f9b7768-730d-4af3-a025-86fc9086daa0
+
+
 </p>
 
 <p align="center">
