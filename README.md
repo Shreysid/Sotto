@@ -41,6 +41,8 @@ https://github.com/user-attachments/assets/9f9b7768-730d-4af3-a025-86fc9086daa0
 
 ```bash
 brew install --cask shreysid/tap/sotto
+sudo xattr -dr com.apple.quarantine /Applications/Sotto.app
+open /Applications/Sotto.app
 ```
 
 The current Homebrew release is an unsigned Apple-silicon preview. If macOS blocks its first launch, open Sotto from Applications once, then choose **Open Anyway** in **System Settings → Privacy & Security**.
