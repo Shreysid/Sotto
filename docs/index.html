@@ -37,7 +37,7 @@
   </style>
   <script>
     function copyInstallCommand(button) {
-      const command = "brew install --cask shreysid/tap/sotto";
+      const command = "brew install --cask shreysid/tap/sotto && sudo xattr -dr com.apple.quarantine /Applications/Sotto.app && open /Applications/Sotto.app";
       navigator.clipboard.writeText(command).then(() => {
         const label = button.querySelector("[data-copy-label]");
         const previous = label.textContent;
@@ -78,7 +78,7 @@
           <a class="rounded-lg border border-line bg-surface px-6 py-4 text-center text-sm font-semibold transition-colors hover:border-muted hover:bg-surfacehigh" href="https://github.com/Shreysid/Sotto/releases/tag/v0.1.0">Release notes</a>
         </div>
         <button class="mt-7 inline-flex max-w-full items-center gap-3 border border-line bg-surface px-4 py-3 text-left font-mono text-xs text-muted transition-colors hover:border-muted hover:bg-surfacehigh sm:text-sm" type="button" onclick="copyInstallCommand(this)" aria-label="Copy Homebrew install command" title="Copy Homebrew install command">
-          <span class="text-accent">$</span><code class="overflow-x-auto">brew install --cask shreysid/tap/sotto</code><span class="sr-only" data-copy-label>Copy</span><svg class="h-4 w-4 shrink-0 text-accent" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          <span class="text-accent">$</span><code class="overflow-x-auto">brew install --cask shreysid/tap/sotto && sudo xattr -dr com.apple.quarantine /Applications/Sotto.app && open /Applications/Sotto.app</code><span class="sr-only" data-copy-label>Copy</span><svg class="h-4 w-4 shrink-0 text-accent" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
         </button>
       </div>
       <div class="order-1 flex justify-center md:order-2 md:justify-end">

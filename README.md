@@ -45,7 +45,7 @@ sudo xattr -dr com.apple.quarantine /Applications/Sotto.app
 open /Applications/Sotto.app
 ```
 
-The current Homebrew release is an unsigned Apple-silicon preview. If macOS blocks its first launch, open Sotto from Applications once, then choose **Open Anyway** in **System Settings → Privacy & Security**.
+The current Homebrew release is an unsigned Apple-silicon preview. The `xattr` command removes macOS quarantine so Gatekeeper does not show the misleading damaged-app warning on first launch.
 
 ## Build from source
 
