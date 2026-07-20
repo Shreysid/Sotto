@@ -1,263 +1,209 @@
-<!DOCTYPE html>
+<!doctype html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Sotto is expressive local text-to-speech for selected text on macOS.">
+  <title>Sotto - Local text-to-speech for macOS</title>
 
-<html class="dark" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Sotto - Local text-to-speech for macOS</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@500&amp;family=Manrope:wght@700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "on-secondary": "#00315f",
-                        "on-error-container": "#ffdad6",
-                        "surface-container-high": "#2a2a2a",
-                        "background": "#000000",
-                        "primary-container": "#8a2be2",
-                        "secondary-fixed-dim": "#a5c8ff",
-                        "tertiary-fixed-dim": "#48ddbd",
-                        "on-error": "#690005",
-                        "on-tertiary": "#00382d",
-                        "on-secondary-container": "#002a53",
-                        "text-primary": "#FFFFFF",
-                        "on-primary-fixed": "#2c0051",
-                        "primary-fixed": "#efdbff",
-                        "on-primary": "#480081",
-                        "on-tertiary-fixed": "#002019",
-                        "on-primary-fixed-variant": "#6700b5",
-                        "tertiary": "#48ddbd",
-                        "outline-variant": "#4c4354",
-                        "secondary-container": "#2792ff",
-                        "text-secondary": "#A1A1AA",
-                        "primary": "#dcb8ff",
-                        "accent-cyan": "#00E5FF",
-                        "surface": "#09090B",
-                        "secondary": "#a5c8ff",
-                        "on-tertiary-fixed-variant": "#005143",
-                        "on-tertiary-container": "#68f8d7",
-                        "surface-container-highest": "#353534",
-                        "surface-container-lowest": "#0e0e0e",
-                        "surface-dim": "#131313",
-                        "inverse-surface": "#e5e2e1",
-                        "gradient-start": "#8A2BE2",
-                        "inverse-on-surface": "#313030",
-                        "surface-container": "#201f1f",
-                        "error": "#ffb4ab",
-                        "surface-obsidian": "#000000",
-                        "error-container": "#93000a",
-                        "surface-bright": "#393939",
-                        "on-surface": "#e5e2e1",
-                        "on-background": "#e5e2e1",
-                        "on-secondary-fixed": "#001c3a",
-                        "surface-variant": "#353534",
-                        "on-primary-container": "#eed9ff",
-                        "on-surface-variant": "#cfc2d7",
-                        "secondary-fixed": "#d4e3ff",
-                        "tertiary-container": "#00715e",
-                        "surface-charcoal": "#09090B",
-                        "inverse-primary": "#8422dc",
-                        "primary-fixed-dim": "#dcb8ff",
-                        "on-secondary-fixed-variant": "#004786",
-                        "surface-tint": "#dcb8ff",
-                        "outline": "#988ca0",
-                        "tertiary-fixed": "#6afad9",
-                        "surface-container-low": "#1c1b1b",
-                        "gradient-end": "#1E90FF"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "margin-sm": "16px",
-                        "gutter": "24px",
-                        "unit": "4px",
-                        "margin-lg": "64px",
-                        "margin-md": "32px",
-                        "max-width": "1100px"
-                    },
-                    "fontFamily": {
-                        "display-lg": ["Manrope"],
-                        "label-mono": ["JetBrains Mono"],
-                        "button-text": ["Inter"],
-                        "headline-lg-mobile": ["Manrope"],
-                        "headline-lg": ["Manrope"],
-                        "body-lg": ["Inter"],
-                        "body-md": ["Inter"]
-                    },
-                    "fontSize": {
-                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
-                        "label-mono": ["13px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
-                        "button-text": ["14px", { "lineHeight": "1.0", "fontWeight": "600" }],
-                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }],
-                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
-                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
-                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }]
-                    }
-                }
-            }
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;family=Manrope:wght@700;800&amp;display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            canvas: "#111211",
+            surface: "#1a1d1b",
+            surfacehigh: "#242825",
+            ink: "#f4f4ef",
+            muted: "#a9afa9",
+            line: "#3d443e",
+            accent: "#5ed6ca",
+            accentink: "#062c29"
+          },
+          fontFamily: {
+            display: ["Manrope", "sans-serif"],
+            body: ["Inter", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"]
+          }
         }
-    </script>
-<style>
-        body {
-            background-color: theme('colors.background');
-            color: theme('colors.text-primary');
-            font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
-        .bg-glass {
-            background-color: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-    </style>
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background: #111211;
+      color: #f4f4ef;
+      font-family: Inter, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+
+  <script>
+    function copyInstallCommand(button) {
+      const command = "brew install --cask shreysid/tap/sotto && sudo xattr -dr com.apple.quarantine /Applications/Sotto.app && open /Applications/Sotto.app";
+
+      navigator.clipboard.writeText(command).then(() => {
+        const label = button.querySelector("[data-copy-label]");
+        label.textContent = "Copied";
+        button.setAttribute("aria-label", "Copied install command");
+
+        window.setTimeout(() => {
+          label.textContent = "";
+          button.setAttribute("aria-label", "Copy install command");
+        }, 1400);
+      });
+    }
+  </script>
 </head>
-<body class="bg-background text-text-primary min-h-screen flex flex-col selection:bg-accent-cyan/30">
-<!-- TopNavBar -->
-<nav class="bg-background/80 backdrop-blur-xl font-body-md text-body-md w-full top-0 sticky z-50 border-b border-white/5">
-<div class="flex justify-between items-center max-w-max-width mx-auto px-margin-md h-20">
-<div class="flex items-center gap-3">
-<img alt="Sotto Logo" class="w-8 h-8 rounded-md" src="https://lh3.googleusercontent.com/aida/AP1WRLtUEsUluJDUHzk79LJQqVLNbX8sUcV1_y8Oc7hpmQCeRS7Ixg90ov6Ens-ozLTx_R-zSABhEJZYuchrkze1B7DU2OzQEvdsEDFq98gitCf0AMgn3lMxNwvT8W_l5IPPtQdupj3iTuit4vhkU2nzKoMToL6zjG0cReybmxGQmjy2V1vdsnU7YyfV-CmxYWdZ8Q0m4gqPmPs6ayixuGay1QKD3xvuBra4ni8RnreMcyzjayU2zqwhX1oV_-k"/>
-<span class="font-display-lg text-[22px] font-extrabold text-white tracking-tight">Sotto</span>
-</div>
-<div class="hidden md:flex items-center gap-8">
-<a class="text-text-secondary hover:text-white transition-colors duration-200 font-medium" href="#how-it-works">How it works</a>
-<a class="text-text-secondary hover:text-white transition-colors duration-200 font-medium" href="#install">Sponsor me</a>
-<a class="bg-white/10 border border-white/20 text-white px-5 py-2.5 rounded-full font-button-text hover:bg-white/20 transition-all flex items-center gap-2" href="https://github.com/Shreysid/Sotto">
-<svg class="w-4 h-4" fill="currentColor" viewbox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>
-                    Star on GitHub
-                </a>
-</div>
-</div>
-</nav>
-<main class="flex-grow flex flex-col items-center w-full">
-<!-- Hero Section -->
-<section class="w-full max-w-max-width px-margin-md pt-40 pb-32 flex flex-col items-center text-center relative">
-<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent-cyan/10 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
-<div class="mb-10 w-24 h-24 rounded-2xl overflow-hidden shadow-[0_0_60px_rgba(0,229,255,0.2)] border border-accent-cyan/20">
-<img alt="Sotto Logo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AP1WRLtUEsUluJDUHzk79LJQqVLNbX8sUcV1_y8Oc7hpmQCeRS7Ixg90ov6Ens-ozLTx_R-zSABhEJZYuchrkze1B7DU2OzQEvdsEDFq98gitCf0AMgn3lMxNwvT8W_l5IPPtQdupj3iTuit4vhkU2nzKoMToL6zjG0cReybmxGQmjy2V1vdsnU7YyfV-CmxYWdZ8Q0m4gqPmPs6ayixuGay1QKD3xvuBra4ni8RnreMcyzjayU2zqwhX1oV_-k"/>
-</div>
-<span class="font-label-mono text-label-mono text-accent-cyan uppercase mb-6 tracking-[0.2em] font-bold">Local text-to-speech for macOS</span>
-<h1 class="font-display-lg text-[56px] md:text-[80px] leading-[1.05] max-w-4xl mb-8 font-extrabold tracking-tight text-white">
-                Selected text,<br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan to-blue-500">spoken naturally.</span>
-</h1>
-<p class="font-body-lg text-[20px] text-text-secondary max-w-2xl mb-12 leading-relaxed">
-                Sotto turns text from any app into expressive speech on your Mac. No account, no subscription, no text sent to a cloud voice API.
+
+<body class="min-h-screen bg-canvas text-ink">
+  <nav class="sticky top-0 z-50 border-b border-line/70 bg-canvas/95 backdrop-blur-xl">
+    <div class="mx-auto flex h-20 max-w-6xl items-center justify-between px-6">
+      <a class="flex items-center gap-3 font-display text-[22px] font-bold" href="#top">
+        <img class="h-9 w-9 rounded-lg" src="assets/sotto-logo.png" alt="Sotto">
+        <span>Sotto</span>
+      </a>
+
+      <div class="flex items-center gap-5 text-sm">
+        <a class="hidden text-muted transition-colors hover:text-ink md:block" href="#how-it-works">How it works</a>
+        <a class="hidden text-muted transition-colors hover:text-ink md:block" href="#install">Install</a>
+        <a class="hidden text-muted transition-colors hover:text-ink md:block" href="https://github.com/sponsors/Shreysid">Sponsor</a>
+        <a class="rounded-lg border border-line bg-surface px-4 py-2.5 font-medium transition-colors hover:border-muted hover:bg-surfacehigh" href="https://github.com/Shreysid/Sotto">Star on GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="mx-auto grid min-h-[76svh] max-w-6xl items-center gap-14 px-6 py-20 md:grid-cols-2 md:py-28">
+      <div class="order-2 md:order-1">
+        <p class="mb-7 inline-flex border border-line bg-surface px-3 py-2 font-mono text-xs uppercase tracking-[0.16em] text-muted">Local text-to-speech for macOS</p>
+
+        <h1 class="mb-7 font-display text-5xl font-extrabold leading-[1.03] md:text-7xl">
+          Selected text,<br>
+          <span class="text-muted">spoken naturally.</span>
+        </h1>
+
+        <p class="max-w-xl text-lg leading-relaxed text-muted md:text-xl">
+          Sotto turns text from any app into expressive speech on your Mac. No account, no subscription, and no text sent to a cloud voice API.
+        </p>
+
+        <div class="mt-10 flex flex-col gap-3 sm:flex-row">
+          <a class="rounded-lg bg-accent px-6 py-4 text-center text-sm font-semibold text-accentink transition-colors hover:bg-[#83e7de]" href="#install">Get the preview</a>
+          <a class="rounded-lg border border-line bg-surface px-6 py-4 text-center text-sm font-semibold transition-colors hover:border-muted hover:bg-surfacehigh" href="https://github.com/Shreysid/Sotto/releases/tag/v0.1.0">Release notes</a>
+        </div>
+
+        <button class="mt-7 inline-flex max-w-full items-center gap-3 border border-line bg-surface px-4 py-3 text-left font-mono text-xs text-muted transition-colors hover:border-muted hover:bg-surfacehigh sm:text-sm" type="button" onclick="copyInstallCommand(this)" aria-label="Copy install command" title="Copy install command">
+          <span class="text-accent">$</span>
+          <code class="overflow-x-auto">brew install --cask shreysid/tap/sotto && sudo xattr -dr com.apple.quarantine /Applications/Sotto.app && open /Applications/Sotto.app</code>
+          <span class="sr-only" data-copy-label></span>
+          <svg class="h-4 w-4 shrink-0 text-accent" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="order-1 flex justify-center md:order-2 md:justify-end">
+        <div class="w-56 border border-line bg-surface p-5 shadow-2xl sm:w-72 md:w-80">
+          <img class="h-auto w-full -rotate-[15deg]" src="assets/sotto-logo.png" alt="Sotto application icon">
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="border-t border-line/70 py-20 md:py-28">
+      <div class="mx-auto max-w-6xl px-6">
+        <div class="mb-14 grid gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-end">
+          <h2 class="font-display text-3xl font-bold leading-tight md:text-5xl">Built for the way you already read.</h2>
+          <p class="text-lg leading-relaxed text-muted">Keep Sotto in the menu bar. Highlight a passage in a browser, editor, or chat app, then use your own global shortcut to hear it.</p>
+        </div>
+
+        <div class="grid border border-line md:grid-cols-3">
+          <article class="min-h-60 bg-surface p-8 md:p-10">
+            <span class="font-mono text-xs text-accent">01</span>
+            <h3 class="mt-9 font-display text-2xl font-bold">Expressive voice</h3>
+            <p class="mt-4 leading-relaxed text-muted">Kokoro delivers a more human read than system text-to-speech, with local inference on Apple silicon.</p>
+          </article>
+
+          <article class="min-h-60 border-t border-line bg-surface p-8 md:border-l md:border-t-0 md:p-10">
+            <span class="font-mono text-xs text-accent">02</span>
+            <h3 class="mt-9 font-display text-2xl font-bold">Fast follow-up speech</h3>
+            <p class="mt-4 leading-relaxed text-muted">Sotto warms the model after startup and begins long passages with a smaller first section for faster audio.</p>
+          </article>
+
+          <article class="min-h-60 border-t border-line bg-surface p-8 md:border-l md:border-t-0 md:p-10">
+            <span class="font-mono text-xs text-accent">03</span>
+            <h3 class="mt-9 font-display text-2xl font-bold">Your words stay local</h3>
+            <p class="mt-4 leading-relaxed text-muted">Selected text and generated audio stay on your Mac. The network is only used for the first model download.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-t border-line/70 py-20 md:py-28">
+      <div class="mx-auto max-w-6xl px-6">
+        <div class="mb-14 grid gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-end">
+          <h2 class="font-display text-3xl font-bold leading-tight md:text-5xl">
+            Small controls,<br>
+            <span class="text-muted">serious usefulness.</span>
+          </h2>
+          <p class="text-lg leading-relaxed text-muted">Change speed during playback, skip between sections, stop instantly, add pronunciation rules for names and acronyms, and let Sotto pause for voice apps.</p>
+        </div>
+
+        <div class="grid gap-4 md:grid-cols-3">
+          <article class="border-t-2 border-accent bg-surface p-8">
+            <span class="font-mono text-xs text-muted">01</span>
+            <h3 class="mt-7 font-display text-2xl font-bold">Choose text</h3>
+            <p class="mt-4 leading-relaxed text-muted">Select anything readable in the app you are using.</p>
+          </article>
+
+          <article class="border-t-2 border-accent bg-surface p-8">
+            <span class="font-mono text-xs text-muted">02</span>
+            <h3 class="mt-7 font-display text-2xl font-bold">Use your shortcut</h3>
+            <p class="mt-4 leading-relaxed text-muted">Sotto reads the active selection without interrupting your workflow.</p>
+          </article>
+
+          <article class="border-t-2 border-accent bg-surface p-8">
+            <span class="font-mono text-xs text-muted">03</span>
+            <h3 class="mt-7 font-display text-2xl font-bold">Adjust as you go</h3>
+            <p class="mt-4 leading-relaxed text-muted">Use the menu bar for pause, speed, navigation, and Sotto Studio.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="install" class="border-t border-line/70 py-20 md:py-28">
+      <div class="mx-auto max-w-6xl px-6">
+        <div class="grid gap-10 border border-line bg-surfacehigh p-8 md:grid-cols-[1fr_auto] md:items-center md:p-14">
+          <div>
+            <p class="font-mono text-xs uppercase tracking-[0.14em] text-accent">Preview release</p>
+            <h2 class="mt-4 font-display text-3xl font-bold md:text-5xl">Try Sotto today.</h2>
+            <p class="mt-5 max-w-2xl text-lg leading-relaxed text-muted">
+              Apple silicon required. This initial Homebrew build is unsigned, so macOS requires a one-time quarantine removal command on first launch.
             </p>
-<div class="flex flex-col sm:flex-row items-center gap-5 mb-12">
-<a class="bg-accent-cyan text-black px-8 py-4 rounded-full font-button-text hover:bg-white transition-colors w-full sm:w-auto text-[16px] font-bold shadow-[0_0_30px_rgba(0,229,255,0.3)]" href="#install">Sponsor me</a>
-<a class="border border-white/20 bg-surface-charcoal/50 text-white px-8 py-4 rounded-full font-button-text hover:bg-white/10 transition-colors w-full sm:w-auto text-[16px] backdrop-blur-sm" href="https://github.com/Shreysid/Sotto/releases/tag/v0.1.0">Preview release</a>
-</div>
-<div class="bg-surface-charcoal/80 border border-white/10 rounded-xl px-8 py-4 font-label-mono text-[14px] text-text-secondary flex items-center gap-4 shadow-xl backdrop-blur-md">
-<span class="text-accent-cyan opacity-80">$</span> brew install --cask shreysid/tap/sotto
-            </div>
-</section>
-<!-- Features Section 1 -->
-<section class="w-full bg-surface-charcoal py-32 border-y border-white/5" id="how-it-works">
-<div class="max-w-max-width mx-auto px-margin-md">
-<div class="flex flex-col items-center text-center mb-20">
-<h2 class="font-display-lg text-[40px] md:text-[56px] font-extrabold max-w-3xl leading-tight mb-6 text-white">Built for the way you already read.</h2>
-<p class="font-body-lg text-[20px] text-text-secondary max-w-2xl">
-                    Keep Sotto in the menu bar. Highlight a passage in a browser, editor, or chat app, then use your own global shortcut to hear it.
-                </p>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-<!-- Card 1 -->
-<div class="bg-background border border-white/10 rounded-2xl p-10 flex flex-col hover:border-accent-cyan/50 transition-colors duration-300 group">
-<div class="w-12 h-12 rounded-full bg-accent-cyan/10 flex items-center justify-center mb-8 group-hover:bg-accent-cyan/20 transition-colors">
-<span class="font-label-mono text-[14px] text-accent-cyan font-bold">01</span>
-</div>
-<h3 class="font-display-lg text-[24px] text-white mb-4">Expressive voice</h3>
-<p class="font-body-md text-text-secondary leading-relaxed">Kokoro delivers a more human read than system text-to-speech, with local inference on Apple silicon.</p>
-</div>
-<!-- Card 2 -->
-<div class="bg-background border border-white/10 rounded-2xl p-10 flex flex-col hover:border-accent-cyan/50 transition-colors duration-300 group">
-<div class="w-12 h-12 rounded-full bg-accent-cyan/10 flex items-center justify-center mb-8 group-hover:bg-accent-cyan/20 transition-colors">
-<span class="font-label-mono text-[14px] text-accent-cyan font-bold">02</span>
-</div>
-<h3 class="font-display-lg text-[24px] text-white mb-4">Fast follow-up speech</h3>
-<p class="font-body-md text-text-secondary leading-relaxed">Sotto warms the model after startup and begins long passages with a smaller first section for faster audio.</p>
-</div>
-<!-- Card 3 -->
-<div class="bg-background border border-white/10 rounded-2xl p-10 flex flex-col hover:border-accent-cyan/50 transition-colors duration-300 group">
-<div class="w-12 h-12 rounded-full bg-accent-cyan/10 flex items-center justify-center mb-8 group-hover:bg-accent-cyan/20 transition-colors">
-<span class="font-label-mono text-[14px] text-accent-cyan font-bold">03</span>
-</div>
-<h3 class="font-display-lg text-[24px] text-white mb-4">Your words stay local</h3>
-<p class="font-body-md text-text-secondary leading-relaxed">Selected text and generated audio stay on your Mac. The network is only used for the first model download.</p>
-</div>
-</div>
-</div>
-</section>
-<!-- Features Section 2 -->
-<section class="w-full max-w-max-width mx-auto px-margin-md py-32">
-<div class="flex flex-col items-center text-center mb-20">
-<h2 class="font-display-lg text-[40px] md:text-[56px] font-extrabold max-w-3xl leading-tight mb-6 text-white">Small controls,<br/>serious usefulness.</h2>
-<p class="font-body-lg text-[20px] text-text-secondary max-w-2xl">
-                    Change speed during playback, skip between sections, stop instantly, add pronunciation rules for names and acronyms, and let Sotto pause for voice apps.
-                </p>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-<!-- Card 1 -->
-<div class="bg-surface-charcoal border border-white/5 rounded-2xl p-10 flex flex-col relative overflow-hidden group">
-<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-accent-cyan/50 to-transparent"></div>
-<span class="font-label-mono text-[14px] text-accent-cyan/70 mb-6 font-bold">01</span>
-<h3 class="font-display-lg text-[24px] text-white mb-4">Choose text</h3>
-<p class="font-body-md text-text-secondary leading-relaxed">Select anything readable in the app you are using.</p>
-</div>
-<!-- Card 2 -->
-<div class="bg-surface-charcoal border border-white/5 rounded-2xl p-10 flex flex-col relative overflow-hidden group">
-<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-accent-cyan/50 to-transparent"></div>
-<span class="font-label-mono text-[14px] text-accent-cyan/70 mb-6 font-bold">02</span>
-<h3 class="font-display-lg text-[24px] text-white mb-4">Use your shortcut</h3>
-<p class="font-body-md text-text-secondary leading-relaxed">Sotto reads the active selection without interrupting your workflow.</p>
-</div>
-<!-- Card 3 -->
-<div class="bg-surface-charcoal border border-white/5 rounded-2xl p-10 flex flex-col relative overflow-hidden group">
-<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-accent-cyan/50 to-transparent"></div>
-<span class="font-label-mono text-[14px] text-accent-cyan/70 mb-6 font-bold">03</span>
-<h3 class="font-display-lg text-[24px] text-white mb-4">Adjust as you go</h3>
-<p class="font-body-md text-text-secondary leading-relaxed">Use the menu bar for pause, speed, navigation, and Sotto Studio.</p>
-</div>
-</div>
-</section>
-<!-- CTA Section -->
-<section class="w-full max-w-max-width mx-auto px-margin-md pb-32" id="install">
-<div class="bg-gradient-to-br from-surface-charcoal to-background border border-accent-cyan/20 rounded-[32px] p-12 md:p-20 flex flex-col md:flex-row items-center justify-between gap-12 relative overflow-hidden shadow-[0_0_100px_rgba(0,229,255,0.05)]">
-<div class="absolute top-0 right-0 w-64 h-64 bg-accent-cyan/10 rounded-full blur-[80px] pointer-events-none"></div>
-<div class="max-w-xl relative z-10">
-<h2 class="font-display-lg text-[40px] md:text-[56px] font-extrabold mb-6 text-white leading-tight">Try the preview.</h2>
-<p class="font-body-md text-[18px] text-text-secondary leading-relaxed">
-                        Apple silicon required. This initial Homebrew build is unsigned, so macOS may require a one-time Gatekeeper override on first launch.
-                    </p>
-</div>
-<a class="bg-accent-cyan text-black px-8 py-5 rounded-2xl font-button-text hover:bg-white transition-colors whitespace-nowrap flex items-center gap-3 text-[18px] font-bold shadow-[0_0_30px_rgba(0,229,255,0.2)] relative z-10" href="https://github.com/Shreysid/homebrew-tap">
-                    Sponsor me
-                    <span class="material-symbols-outlined text-[24px]">favorite</span>
-</a>
-</div>
-</section>
-</main>
-<!-- Footer -->
-<footer class="bg-background w-full py-12 border-t border-white/10 mt-auto">
-<div class="flex flex-col md:flex-row justify-between items-center max-w-max-width mx-auto px-margin-md font-body-md text-[14px] text-text-secondary gap-6">
-<div class="flex items-center gap-3">
-<img alt="Sotto Logo" class="w-6 h-6 rounded grayscale opacity-50" src="https://lh3.googleusercontent.com/aida/AP1WRLtUEsUluJDUHzk79LJQqVLNbX8sUcV1_y8Oc7hpmQCeRS7Ixg90ov6Ens-ozLTx_R-zSABhEJZYuchrkze1B7DU2OzQEvdsEDFq98gitCf0AMgn3lMxNwvT8W_l5IPPtQdupj3iTuit4vhkU2nzKoMToL6zjG0cReybmxGQmjy2V1vdsnU7YyfV-CmxYWdZ8Q0m4gqPmPs6ayixuGay1QKD3xvuBra4ni8RnreMcyzjayU2zqwhX1oV_-k"/>
-<p>Apache-2.0 licensed. Built with FluidAudio and Kokoro.</p>
-</div>
-<div class="flex gap-8 font-medium">
-<a class="hover:text-accent-cyan transition-colors" href="https://github.com/Shreysid/Sotto">GitHub</a>
-<a class="hover:text-accent-cyan transition-colors" href="https://github.com/Shreysid/homebrew-tap">Homebrew tap</a>
-</div>
-</div>
-</footer>
-</body></html>
+          </div>
+
+          <a class="rounded-lg bg-accent px-6 py-4 text-center text-sm font-semibold text-accentink transition-colors hover:bg-[#83e7de]" href="https://github.com/Shreysid/Sotto">View on GitHub</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-line/70 py-10">
+    <div class="mx-auto flex max-w-6xl flex-col gap-5 px-6 text-sm text-muted md:flex-row md:items-center md:justify-between">
+      <p>Apache-2.0 licensed. Built with FluidAudio and Kokoro.</p>
+
+      <div class="flex gap-6">
+        <a class="transition-colors hover:text-ink" href="https://github.com/Shreysid/Sotto">GitHub</a>
+        <a class="transition-colors hover:text-ink" href="https://github.com/Shreysid/homebrew-tap">Homebrew tap</a>
+        <a class="transition-colors hover:text-ink" href="https://github.com/sponsors/Shreysid">Sponsor</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
