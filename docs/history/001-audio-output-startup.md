@@ -1,5 +1,7 @@
 # Audio output startup and model preparation
 
+The initial output-error handling described here is superseded by the automatic recovery in [v1.0.1](002-v1-0-1-audio-device-recovery.md).
+
 ## Summary
 
 Report audio-output startup failures with a recovery action, order engine startup with player controls, and share model preparation across concurrent requests.

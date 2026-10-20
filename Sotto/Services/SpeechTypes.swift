@@ -1,14 +1,16 @@
 import Foundation
 
 enum SpeechError: LocalizedError {
+    case noAudio
     case noSections
     case audioOutputUnavailable(code: Int)
 
     var errorDescription: String? {
         switch self {
+        case .noAudio: "The voice engine returned no playable audio"
         case .noSections: "No readable section is available"
         case .audioOutputUnavailable(let code):
-            "macOS could not start the selected audio output (\(code)). Choose a working output in System Settings → Sound, then try again."
+            "macOS could not start any available audio output (\(code)). Sotto will reconnect on the next request."
         }
     }
 }
