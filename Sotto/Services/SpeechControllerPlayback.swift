@@ -1,39 +1,35 @@
-@preconcurrency import AVFoundation
 import Foundation
 
 extension SpeechController {
+    func startPlaybackEngine(request: UUID, onError: @escaping @Sendable (Error) -> Void) async throws {
+        try await audioOutput.start(request: request, onError: { [weak self] error in
+            Task { await self?.outputFailed(error, request: request, onError: onError) }
+        }, onRoute: { [weak self] fallback in
+            Task { await self?.outputChanged(fallback, request: request) }
+        })
+    }
+
+    func outputFailed(_ error: Error, request: UUID, onError: @escaping @Sendable (Error) -> Void) {
+        guard activeRequest == request else { return }
+        stop()
+        onError(error)
+    }
+
+    func outputChanged(_ fallback: String?, request: UUID) {
+        guard activeRequest == request else { return }
+        onOutputChanged?(fallback)
+    }
+
     func schedule(samples: [Float], request: UUID) {
-        let buffer = AVAudioPCMBuffer(
-            pcmFormat: playbackFormat, frameCapacity: AVAudioFrameCount(samples.count))!
-        buffer.frameLength = buffer.frameCapacity
-        samples.withUnsafeBufferPointer { source in
-            buffer.floatChannelData![0].update(from: source.baseAddress!, count: samples.count)
-        }
         scheduledBufferCount += 1
-        playbackQueue.async { [player] in
-            player.scheduleBuffer(buffer, completionCallbackType: .dataPlayedBack) { [weak self] _ in
-                Task { await self?.bufferDidFinish(request: request) }
-            }
+        audioOutput.schedule(samples: samples, request: request) { [weak self] in
+            Task { await self?.bufferDidFinish(request: request) }
         }
     }
 
-    func stopPlayer() {
-        playbackQueue.async { [player] in
-            player.stop()
-        }
-    }
-
-    func playPlayer() {
-        playbackQueue.async { [player] in
-            player.play()
-        }
-    }
-
-    func pausePlayer() {
-        playbackQueue.async { [player] in
-            player.pause()
-        }
-    }
+    func stopPlayer() { audioOutput.stop() }
+    func playPlayer() { audioOutput.play() }
+    func pausePlayer() { audioOutput.pause() }
 
     func resetPlaybackTracking(onPlaybackFinished: (@Sendable () -> Void)?) {
         scheduledBufferCount = 0
@@ -57,6 +53,8 @@ extension SpeechController {
 
         activeRequest = nil
         activeText = nil
+        onOutputChanged = nil
+        stopPlayer()
         synthesisTask = nil
         isPaused = false
         let callback = onPlaybackFinished

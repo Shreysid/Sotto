@@ -7,3 +7,4 @@ xcuserdata/
 
 # Xcode resolves this locally from Package.resolved.
 SourcePackages/
+.codegraph/

@@ -22,6 +22,12 @@ struct SottoMenuBarView: View {
 
             Divider()
 
+            if let output = state.audioOutputFallback {
+                Label("Using \(output)", systemImage: "speaker.wave.2")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
             if state.showMenuBarStatus {
                 Text(state.status)
                     .font(.callout)
