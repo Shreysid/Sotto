@@ -6,4 +6,6 @@ Audio playback now follows selected outputs, observes device/configuration chang
 
 See `docs/history/002-v1-0-1-audio-device-recovery.md` for design, validation, and limitations. Silent hardware checks include automatic recovery from the failing LG ULTRAWIDE to available speakers without changing system output settings. Physical Bluetooth playback still needs device validation.
 
-The installed app has not been replaced and the release has not been published.
+Version 1.0.1 (2) is installed and running from `/Applications/Sotto.app`. Startup logs confirmed Neural Engine warm-up in 3.75 seconds on the installation launch. The previous app was backed up to `/private/tmp/Sotto-backup-20261020-143952/Sotto.app` (temporary storage). The release has not been published.
+
+The installed build does not include an updater. A future updater-enabled release can use Sparkle 2 with an HTTPS appcast and signed archives for scheduled checks, an explicit Check for Updates action, and install/defer choices.

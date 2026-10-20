@@ -8,4 +8,4 @@ Run `tests/check-audio-output.sh` for routing checks. Add `--hardware` for silen
 
 Important graph detail: create the mixer and internal connections before binding the output unit. Leave mixer-to-output negotiation automatic. Engine-configuration callbacks can arrive after setup; ignore stale graph callbacks and avoid tearing down an engine from Apple's notification thread.
 
-Remaining validation: physical Bluetooth profile changes, display hot-plug, sleep/wake, and additional Mac hardware. The installed application has not been replaced. Signing/notarization and publishing are not performed.
+Remaining validation: physical Bluetooth profile changes, display hot-plug, sleep/wake, and additional Mac hardware. Version 1.0.1 (2) is installed in `/Applications/Sotto.app` and launched successfully. Previous-app backup: `/private/tmp/Sotto-backup-20261020-143952/Sotto.app` (temporary storage). Signing/notarization and publishing are not performed. Sparkle integration has been discussed but is not implemented.
