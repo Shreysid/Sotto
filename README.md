@@ -88,6 +88,14 @@ Click the menu-bar waveform to open playback controls and **Sotto Studio**.
 | **Pause for voice apps** | Stops Sotto when a supported calling or voice app becomes active. |
 | **Stats** | Tracks locally spoken words and total playback time. |
 
+## Troubleshooting audio and startup delays
+
+If Sotto reports that macOS could not start the selected audio output, open **System Settings → Sound → Output** and choose a working device, such as **MacBook Pro Speakers**, then try again. A connected display can remain selectable even when its audio device fails to start. Deleting Kokoro does not repair an audio-output failure.
+
+The first request after launch can take longer while Kokoro loads and warms its models. Wait for **Kokoro ready** before comparing generation times. Later requests reuse the loaded model; timing also depends on text length and available compute resources.
+
+For diagnostics, Sotto logs model preparation, audio-output startup, synthesis time, and CPU/GPU fallback under the `com.shreysid.Sotto` subsystem in Console. The first-audio timing includes model preparation and audio startup; selection capture is reported separately.
+
 ## Privacy
 
 Selected text and generated audio remain on-device. Sotto contacts the model host only to download Kokoro and its supporting assets.

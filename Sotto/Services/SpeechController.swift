@@ -20,6 +20,7 @@ actor SpeechController {
     )!
 
     var isPrepared = false
+    var preparationTask: Task<Void, Error>?
     var playbackRate: Float = 1.0
     var activeRequest: UUID?
     var activeText: String?
@@ -54,16 +55,22 @@ actor SpeechController {
         onError: @escaping @Sendable (Error) -> Void,
         onPlaybackFinished: @escaping @Sendable () -> Void
     ) async throws {
-        try await prepare()
-        stopPlayer()
-        if !engine.isRunning { try engine.start() }
+        let started = ContinuousClock.now
+        stop()
         let request = UUID()
         activeRequest = request
         activeText = text
-        synthesisTask?.cancel()
+        do {
+            try await prepare()
+            guard activeRequest == request else { return }
+            try startPlaybackEngine()
+        } catch {
+            guard activeRequest == request else { return }
+            stop()
+            throw error
+        }
         isPaused = false
         resetPlaybackTracking(onPlaybackFinished: onPlaybackFinished)
-        let started = ContinuousClock.now
 
         try await speakKokoro(
             text: text, request: request, started: started,
@@ -118,7 +125,12 @@ actor SpeechController {
         activeRequest = request
         isPaused = false
         resetPlaybackTracking(onPlaybackFinished: onPlaybackFinished)
-        if !engine.isRunning { try engine.start() }
+        do {
+            try startPlaybackEngine()
+        } catch {
+            stop()
+            throw error
+        }
         try await playKokoro(from: target, request: request, started: .now,
                              onFirstAudio: onFirstAudio, onError: onError)
     }

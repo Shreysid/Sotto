@@ -27,13 +27,14 @@ extension SpeechController {
         sectionIndex = index
 
         do {
+            let synthesisStarted = ContinuousClock.now
             let result = try await kokoro.synthesizeDetailed(text: firstChunk)
             guard activeRequest == request else { return }
             schedule(samples: result.samples, request: request)
             if !isPaused { playPlayer() }
             let firstAudio = started.duration(to: .now)
-            logger.info(
-                "First audio: \(firstChunk.count) chars in \(firstAudio.seconds, format: .fixed(precision: 2)) s using \(self.kokoroUsingFallback ? "CPU/GPU fallback" : "ANE", privacy: .public)"
+            logger.notice(
+                "First audio: \(firstChunk.count) chars in \(firstAudio.seconds, format: .fixed(precision: 2)) s; synthesis \(synthesisStarted.duration(to: .now).seconds, format: .fixed(precision: 2)) s, model stages \(result.timings.totalMs, format: .fixed(precision: 0)) ms using \(self.kokoroUsingFallback ? "CPU/GPU fallback" : "ANE", privacy: .public)"
             )
             onFirstAudio(firstAudio)
 
@@ -49,6 +50,7 @@ extension SpeechController {
             }
         } catch {
             guard activeRequest == request else { return }
+            stop()
             onError(error)
         }
     }
@@ -72,6 +74,7 @@ extension SpeechController {
             completePlaybackIfFinished(request: request)
         } catch {
             guard activeRequest == request, !Task.isCancelled else { return }
+            stop()
             onError(error)
         }
     }

@@ -1,7 +1,34 @@
 @preconcurrency import AVFoundation
 import Foundation
+import os
 
 extension SpeechController {
+    func startPlaybackEngine() throws {
+        let started = ContinuousClock.now
+        // Keep graph changes and hardware startup ordered with player.stop().
+        // CoreAudio may have stopped the engine after an output-device change.
+        do {
+            try playbackQueue.sync { [engine, timePitch, playbackFormat] in
+                guard !engine.isRunning else { return }
+                engine.reset()
+                engine.disconnectNodeOutput(timePitch)
+                engine.connect(timePitch, to: engine.mainMixerNode, format: playbackFormat)
+                engine.prepare()
+                do {
+                    try engine.start()
+                } catch {
+                    engine.stop()
+                    engine.reset()
+                    throw error
+                }
+            }
+            logger.notice("Audio output ready in \(started.duration(to: .now).seconds, format: .fixed(precision: 2)) s")
+        } catch {
+            logger.error("Audio output failed after \(started.duration(to: .now).seconds, format: .fixed(precision: 2)) s: \(error.localizedDescription, privacy: .public)")
+            throw SpeechError.audioOutputUnavailable(code: (error as NSError).code)
+        }
+    }
+
     func schedule(samples: [Float], request: UUID) {
         let buffer = AVAudioPCMBuffer(
             pcmFormat: playbackFormat, frameCapacity: AVAudioFrameCount(samples.count))!
