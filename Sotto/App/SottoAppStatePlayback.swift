@@ -38,7 +38,6 @@ extension SottoAppState {
                 let captureTime = selectionStarted.duration(to: .now)
                 recordWords(in: text)
                 let spokenText = applyingPronunciationRules(to: text)
-                audioOutputFallback = nil
                 updateStatus("Generating audio - capture \(captureTime.short)")
                 try await speech.speak(
                     text: spokenText,
@@ -62,11 +61,6 @@ extension SottoAppState {
                             SottoAppState.shared.finishDictationSession()
                             SottoAppState.shared.isPaused = false
                             SottoAppState.shared.updateStatus("Finished")
-                        }
-                    },
-                    onOutputChanged: { fallback in
-                        Task { @MainActor in
-                            SottoAppState.shared.audioOutputFallback = fallback
                         }
                     }
                 )

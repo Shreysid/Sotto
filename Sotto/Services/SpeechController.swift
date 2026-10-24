@@ -1,14 +1,25 @@
+@preconcurrency import AVFoundation
 import FluidAudio
-import Foundation
 import os
 
 actor SpeechController {
     let logger = Logger(subsystem: "com.shreysid.Sotto", category: "Speech")
     var kokoro = KokoroAneManager(defaultVoice: "af_heart")
-    let audioOutput = SpeechAudioOutput()
+    let engine = AVAudioEngine()
+    let player = AVAudioPlayerNode()
+    let timePitch = AVAudioUnitTimePitch()
+    let playbackQueue = DispatchQueue(
+        label: "com.shreysid.Sotto.speech.playback",
+        qos: .userInitiated
+    )
+    let playbackFormat = AVAudioFormat(
+        commonFormat: .pcmFormatFloat32,
+        sampleRate: 24_000,
+        channels: 1,
+        interleaved: false
+    )!
 
     var isPrepared = false
-    var preparationTask: Task<Void, Error>?
     var playbackRate: Float = 1.0
     var activeRequest: UUID?
     var activeText: String?
@@ -20,39 +31,39 @@ actor SpeechController {
     var scheduledBufferCount = 0
     var completedBufferCount = 0
     var synthesisComplete = false
-    var onOutputChanged: (@Sendable (String?) -> Void)?
     var onPlaybackFinished: (@Sendable () -> Void)?
+
+    init() {
+        engine.attach(player)
+        engine.attach(timePitch)
+        engine.connect(player, to: timePitch, format: playbackFormat)
+        engine.connect(timePitch, to: engine.mainMixerNode, format: playbackFormat)
+    }
 
     func setSpeed(_ speed: Float) {
         playbackRate = min(max(speed, 0.75), 1.35)
-        audioOutput.setSpeed(playbackRate)
+        let playbackRate = playbackRate
+        playbackQueue.async { [timePitch] in
+            timePitch.rate = playbackRate
+        }
     }
 
     func speak(
         text: String,
         onFirstAudio: @escaping @Sendable (Duration) -> Void,
         onError: @escaping @Sendable (Error) -> Void,
-        onPlaybackFinished: @escaping @Sendable () -> Void,
-        onOutputChanged: @escaping @Sendable (String?) -> Void = { _ in }
+        onPlaybackFinished: @escaping @Sendable () -> Void
     ) async throws {
-        let started = ContinuousClock.now
-        stop()
+        try await prepare()
+        stopPlayer()
+        if !engine.isRunning { try engine.start() }
         let request = UUID()
         activeRequest = request
         activeText = text
-        self.onOutputChanged = onOutputChanged
-        do {
-            try await prepare()
-            guard activeRequest == request else { return }
-            try await startPlaybackEngine(request: request, onError: onError)
-            guard activeRequest == request else { return }
-        } catch {
-            guard activeRequest == request else { return }
-            stop()
-            throw error
-        }
+        synthesisTask?.cancel()
         isPaused = false
         resetPlaybackTracking(onPlaybackFinished: onPlaybackFinished)
+        let started = ContinuousClock.now
 
         try await speakKokoro(
             text: text, request: request, started: started,
@@ -62,7 +73,6 @@ actor SpeechController {
     func stop() {
         activeRequest = nil
         activeText = nil
-        onOutputChanged = nil
         synthesisTask?.cancel()
         synthesisTask = nil
         resetPlaybackTracking(onPlaybackFinished: nil)
@@ -108,14 +118,7 @@ actor SpeechController {
         activeRequest = request
         isPaused = false
         resetPlaybackTracking(onPlaybackFinished: onPlaybackFinished)
-        do {
-            try await startPlaybackEngine(request: request, onError: onError)
-            guard activeRequest == request else { return }
-        } catch {
-            guard activeRequest == request else { return }
-            stop()
-            throw error
-        }
+        if !engine.isRunning { try engine.start() }
         try await playKokoro(from: target, request: request, started: .now,
                              onFirstAudio: onFirstAudio, onError: onError)
     }

@@ -41,9 +41,7 @@ extension SpeechController {
         try await prepare()
     }
 
-    func deleteKokoroModels() async throws {
-        // Do not remove files while the startup task is still loading them.
-        if let preparationTask { _ = try? await preparationTask.value }
+    func deleteKokoroModels() throws {
         stop()
         isPrepared = false
         kokoroUsingFallback = false
@@ -63,24 +61,11 @@ extension SpeechController {
 
     func prepare() async throws {
         guard !isPrepared else { return }
-        if let preparationTask {
-            try await preparationTask.value
-            return
-        }
-        let task = Task { try await self.initializeKokoro() }
-        preparationTask = task
-        defer { preparationTask = nil }
-        try await task.value
-    }
-
-    private func initializeKokoro() async throws {
-        let started = ContinuousClock.now
         do {
             try await kokoro.initialize()
             _ = try await kokoro.synthesizeDetailed(text: "Ready.")
         } catch {
             guard !kokoroUsingFallback else { throw error }
-            logger.warning("Kokoro accelerated initialization failed; switching to CPU/GPU: \(error.localizedDescription, privacy: .public)")
             kokoroUsingFallback = true
             kokoro = KokoroAneManager(
                 defaultVoice: "af_heart",
@@ -91,6 +76,6 @@ extension SpeechController {
         }
         isPrepared = true
         let accelerator = kokoroUsingFallback ? "CPU/GPU fallback" : "ANE"
-        logger.notice("Kokoro pre-warmed using \(accelerator, privacy: .public) in \(started.duration(to: .now).seconds, format: .fixed(precision: 2)) s")
+        logger.info("Kokoro pre-warmed using \(accelerator, privacy: .public)")
     }
 }

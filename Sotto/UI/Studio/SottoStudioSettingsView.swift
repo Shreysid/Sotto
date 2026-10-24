@@ -27,11 +27,6 @@ struct StudioSettingsView: View {
             VStack(alignment: .trailing, spacing: 7) {
                 Text(state.status)
                     .foregroundStyle(.secondary)
-                if let output = state.audioOutputFallback {
-                    Label("Using \(output)", systemImage: "speaker.wave.2")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
                 if let progress = state.kokoroInstallationState.downloadProgress {
                     ProgressView(value: progress) {
                         Text("\(Int((progress * 100).rounded()))% downloaded")

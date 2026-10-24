@@ -22,7 +22,6 @@ final class SottoAppState: ObservableObject {
     @Published var wordsSpoken: Int
     @Published var totalDictationSeconds: Double
     @Published var latestFirstAudio: Duration?
-    @Published var audioOutputFallback: String?
     @Published var kokoroInstallationState: KokoroInstallationState = .checking
     @Published var kokoroInstalledProgress = 0.0
     @Published var accessibilityPermissionGranted: Bool
